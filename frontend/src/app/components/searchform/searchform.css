@@ -1,0 +1,638 @@
+* {
+    font-size: small;
+}
+
+.req {
+    color: #d00;
+}
+
+.suggestions {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    right: 0;
+    background: #fff;
+    border: 1px solid #e6e6e6;
+    border-radius: 6px;
+    z-index: 20;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    max-height: 220px;
+    overflow: auto;
+}
+
+.suggestions li {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.suggestions li:hover {
+    background: #f7f7f7;
+}
+
+/* menu items */
+.custom-select-menu .dropdown-item {
+    border-radius: 6px;
+    padding: 12px 14px;
+    color: #111;
+}
+
+/* hovered item */
+.custom-select-menu .dropdown-item:hover {
+    background: #f7f7f7;
+}
+
+/* checkmark style */
+.custom-select-menu .fa-check {
+    font-size: 14px;
+}
+
+/* remove default caret margin in button */
+.custom-select-btn .fa-chevron-down {
+    font-size: 12px;
+}
+
+/* ensure it behaves well on small screens */
+@media (max-width: 576px) {
+    .custom-select-menu {
+        top: calc(100% + 6px);
+    }
+}
+
+.auto-switch {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.auto-switch>.auto-label {
+    margin: 0 !important;
+    padding-right: 4px;
+    white-space: nowrap;
+}
+
+.auto-switch .form-check {
+    margin: 0 !important;
+}
+
+/* make the switch compact and match the rounded look in your mockup */
+.auto-switch .form-check-input {
+    margin: 0 !important;
+    transform: translateX(-6px) scale(0.95) !important;
+    width: 40px !important;
+    height: 22px !important;
+    vertical-align: middle;
+}
+
+.auto-switch .form-check-input:focus {
+    box-shadow: none !important;
+}
+
+.form-control,
+.form-select,
+.input-group .form-control,
+.btn {
+    height: 44px;
+    box-sizing: border-box;
+}
+
+/* make the action button fill its column */
+.d-grid>.btn {
+    width: 100%;
+}
+
+/* thumb (Bootstrap uses ::after for switches) */
+.form-switch .form-check-input:before,
+.form-switch .form-check-input::after {
+    /* ensure default thumb appearance is visible across browsers */
+    content: "";
+}
+
+/* track colors */
+.form-switch .form-check-input {
+    background-color: #f1f1f1;
+    border: 1px solid #e0e0e0;
+}
+
+.form-switch .form-check-input:checked {
+    background-color: #0b0b0b;
+    /* dark on checked like your mockup */
+    border-color: #0b0b0b;
+}
+
+/* make switch and label vertically centered and compact */
+.auto-switch .form-check-input {
+    vertical-align: middle;
+}
+
+.auto-switch label.small {
+    white-space: nowrap;
+    color: #333;
+}
+
+.input-group .input-group-text {
+    background: transparent !important;
+    border-left: none !important;
+    color: #333;
+    box-shadow: none !important;
+    padding: 0.5rem 0.75rem;
+}
+
+/* remove the right border of the input so there is no seam */
+.input-group .form-control {
+    border-right: 0 !important;
+}
+
+/* keep rounded corners for the overall group */
+.input-group .form-control:first-child {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.input-group .input-group-text:last-child {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.position-relative .spinner-border {
+    width: 1rem;
+    height: 1rem;
+}
+
+.position-relative .fa-times {
+    color: #666;
+    font-size: 0.95rem;
+}
+
+/* ensure suggestion list items look neat */
+.list-group.position-absolute {
+    top: calc(100% + 8px);
+    margin-top: 0;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(18, 18, 18, 0.08);
+    border: 1px solid #ececec;
+    background: #fff;
+    max-height: 260px;
+}
+
+.list-group.position-absolute .list-group-item {
+    padding: 12px 14px;
+    border: none;
+    cursor: pointer;
+    color: #111;
+    background: #fff;
+}
+
+/* reduce padding so dropdown not too tall */
+.list-group-item {
+    padding: 10px 12px;
+    cursor: pointer;
+}
+
+.list-group.position-absolute .list-group-item:first-child {
+    /* keep a subtle background for the top suggestion but do not make it bold */
+    background: #f5f5f5;
+    font-weight: 400;
+    /* normal weight */
+}
+
+/* hover state */
+.list-group.position-absolute .list-group-item:hover {
+    background: #f7f7f7;
+}
+
+/* "No results" style */
+.list-group.position-absolute .text-center {
+    padding: 10px 12px;
+    color: #7a7a7a;
+}
+
+/* ensure suggestions sit above other UI */
+.list-group.position-absolute {
+    z-index: 1100;
+}
+
+/* when input is focused, ensure border color is slightly darker */
+.position-relative>.form-control:focus {
+    border-color: #cfcfcf;
+    box-shadow: none;
+}
+
+/* keep dropdown caret smaller and inside the custom select button */
+.custom-select-btn {
+    border-radius: 10px;
+    height: 44px;
+    padding: 8px 12px;
+    text-align: left;
+}
+
+/* small screens: slightly smaller heights */
+@media (max-width: 576px) {
+    .position-relative>.form-control {
+        height: 40px;
+        padding-right: 2.5rem;
+    }
+
+    .custom-select-btn {
+        height: 40px;
+    }
+}
+
+.position-relative>.form-control {
+    border-radius: 10px;
+    border: 1px solid #d9d9d9;
+    height: 44px;
+    padding-right: 3rem;
+    /* room for spinner / clear icon */
+    background: #fff;
+    box-shadow: none;
+    color: #111;
+}
+
+/* Ensure inputs behave like flex containers so inline action buttons (chevron, spinner)
+   remain vertically centered regardless of font-size or line-height changes. */
+.position-relative>.form-control,
+.custom-select-btn {
+    display: flex;
+    align-items: center;
+}
+
+/* caret / dropdown appearance (when used inside the input area) */
+.position-relative .fa-chevron-down {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.95rem;
+    color: #666;
+    pointer-events: none;
+    z-index: 2;
+}
+
+/* Nudge caret/icon up slightly to correct baseline differences across browsers/fonts.
+   This keeps the chevron visually centered on the cross axis. */
+.input-actions .action-btn .fa,
+.custom-select-btn::after {
+    /* keep the existing centering then nudge up 1px for visual balance */
+    transform: translateY(calc(-50% - 1px));
+    line-height: 1;
+    display: inline-block;
+}
+
+/* keep clear icon clickable area minimal */
+.position-relative .btn[aria-label="Clear keyword"] {
+    background: transparent;
+    border: 0;
+    padding: 0;
+    color: #666;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+}
+
+/* responsive tweak: keep layout tidy on narrow screens */
+@media (max-width: 576px) {
+    .auto-switch {
+        gap: 4px;
+    }
+
+    .auto-switch .form-check-input {
+        transform: translateX(-5px) scale(0.92) !important;
+    }
+
+}
+
+/* Responsive tweaks */
+@media (max-width: 900px) {
+    .search-form {
+        flex-wrap: wrap;
+    }
+}
+
+/* layout tweaks to vertically align and move the form down a bit */
+.search-form {
+    margin-top: 10px;
+    /* move the whole form down slightly */
+    align-items: stretch;
+    /* make columns equal height so the action button can be centered */
+}
+
+/* ensure each column stacks label -> input and uses consistent vertical spacing */
+.search-form>.col,
+.search-form>.col-2,
+.search-form>.col-3 {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+/* make action column align with other controls vertically */
+.search-form .action-col {
+    /* center the action button vertically inside its column */
+    justify-content: center;
+    align-items: center;
+}
+
+/* nudge the action button down so it lines up with the input fields (label sits above inputs) */
+.search-form .action-col .d-grid {
+    margin-top: 26px;
+}
+
+/* tighten label spacing so fields visually align */
+.search-form .form-label {
+    margin-bottom: 4px;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    line-height: 1.05;
+}
+
+/* Reduce vertical spacing for the labels row so labels fit the row height */
+.labels-row {
+    margin-bottom: 6px;
+    /* small gap between label and inputs row */
+}
+
+.labels-row .form-label {
+    margin-bottom: 0;
+}
+
+/* Reduce vertical padding inside the inputs row columns so inputs sit compactly */
+.inputs-row>[class*='col'] {
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+
+/* make each column a positioned container so we can position the small inline error without
+   causing the row to reflow on desktop. We only use absolute positioning for the error on
+   desktop-sized viewports; on narrow/mobile we keep it in-flow so spacing stacks naturally. */
+.search-form>.col,
+.search-form>.col-2,
+.search-form>.col-3 {
+    position: relative;
+}
+
+/* On wider screens place the error absolutely so it does not create extra vertical space
+   and the fields + search button remain aligned on one horizontal line. */
+@media (min-width: 431px) {
+    .field-error {
+        position: absolute;
+        left: 0;
+        /* place the error inside the column, a few pixels below the input
+           (we reserve space via column padding so this does not push other
+           controls or change the overall row height) */
+        bottom: 6px;
+        margin-top: 0;
+        font-size: 12px;
+        z-index: 2200;
+        /* ensure the error text is visible above other content */
+    }
+
+    /* ensure the container keeps a little extra bottom padding to avoid clipping when absolute */
+    .search-form {
+        padding-bottom: 36px;
+        overflow: visible;
+    }
+
+    /* Reserve a small fixed area under each input column so showing the
+       absolute-positioned error text doesn't reflow the row. This keeps the
+       inputs and action button perfectly aligned on one line. */
+    .inputs-row>[class*='col'] {
+        padding-bottom: 22px;
+    }
+
+    /* Make each column under the inputs row a positioned container so that
+       the absolutely-positioned `.field-error` is anchored to its column
+       (instead of the page). Apply this only on desktop-sized viewports. */
+    .search-form .inputs-row>[class*='col'],
+    .search-form .inputs-row>.action-col {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+    }
+}
+
+/* Ensure the action button sits flush with other inputs (remove previous manual nudge) */
+.search-form .action-col .d-grid {
+    margin-top: 0;
+}
+
+/* input actions (spinner + clear) placed to the right inside inputs */
+.input-actions {
+    position: absolute;
+    right: 12px;
+    /* small offset so spinner/clear sit nicely from the edge */
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    z-index: 30;
+    pointer-events: none;
+    /* avoid capturing pointer on the container itself */
+}
+
+.input-actions>* {
+    pointer-events: auto;
+    /* re-enable events for interactive children (spinner not interactive, clear button is) */
+}
+
+.input-actions .spinner-border {
+    width: 1.1rem;
+    height: 1.1rem;
+    line-height: 1.1rem;
+    /* ensure a smooth rotation animation that doesn't conflict with positioning */
+    animation: tm-spinner-rotate 0.8s linear infinite;
+}
+
+@keyframes tm-spinner-rotate {
+    from {
+        /* preserve centering translate while rotating */
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+
+    to {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}
+
+.input-actions .clear-btn {
+    width: 44px;
+    /* match input height */
+    height: 44px;
+    min-width: 44px;
+    padding: 0;
+    font-size: 1.15rem;
+    /* larger × character */
+    line-height: 44px;
+    /* vertically center the × */
+    border-radius: 10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* action button (chevron / spinner) placed at right inside input-actions */
+.input-actions .action-btn {
+    background: transparent;
+    border: 0;
+    color: #666;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border-radius: 10px;
+    position: relative;
+    /* allow absolute-centering of inner icon/spinner */
+}
+
+.input-actions .action-btn:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.04);
+}
+
+.input-actions .action-btn .fa {
+    font-size: 0.95rem;
+    /* absolutely center the icon to avoid glyph-metric shifts when the glyph changes */
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* center the spinner the same way */
+.input-actions .action-btn>.spinner-border {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    /* ensure spinner uses the same centering transform as the icon; the
+       animation will rotate while keeping this translate via the keyframes */
+    transform: translate(-50%, -50%);
+    width: 1.1rem;
+    height: 1.1rem;
+}
+
+/* Normalize .btn inside the input-actions so clear and action match exactly */
+.input-actions .btn {
+    width: 44px !important;
+    height: 44px !important;
+    min-width: 44px !important;
+    padding: 0 !important;
+    border-radius: 10px !important;
+}
+
+.input-actions .btn .spinner-border {
+    width: 1.1rem;
+    height: 1.1rem;
+}
+
+/* fallback caret for custom select button when FontAwesome not available */
+.custom-select-btn {
+    position: relative;
+    padding-right: 2.25rem;
+}
+
+/* caret on the right side of the custom select button */
+.custom-select-btn::after {
+    content: '';
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 6px solid #666;
+    pointer-events: none;
+}
+
+/* validation helpers */
+.input-invalid {
+    border-color: #dc3545 !important;
+    box-shadow: none !important;
+}
+
+/* label style when the related field has an error (applied via Angular class binding) */
+.label-invalid {
+    color: #dc3545 !important;
+}
+
+.label-invalid .req {
+    color: #dc3545 !important;
+}
+
+.field-error {
+    position: static;
+    color: #dc3545;
+    font-size: 0.85rem;
+    margin-top: 6px;
+    height: 12px;
+}
+
+/* Mobile-specific: stack label above each input and make fields full-width at <=430px */
+@media (max-width: 430px) {
+
+    /* show the labels row and stack its columns so labels sit above the inputs */
+    .labels-row {
+        display: flex !important;
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    .labels-row>[class*='col'] {
+        width: 100% !important;
+        max-width: 100% !important;
+        flex: 0 0 100% !important;
+        padding-left: 0.5rem !important;
+        padding-right: 0.5rem !important;
+        margin-bottom: 0;
+    }
+
+    /* keep inputs row stacked full width under labels */
+    .inputs-row {
+        display: block;
+    }
+
+    .inputs-row>[class*='col'] {
+        width: 100% !important;
+        max-width: 100% !important;
+        flex: 0 0 100% !important;
+        padding-left: 0.5rem !important;
+        padding-right: 0.5rem !important;
+        margin-bottom: 8px;
+    }
+
+    /* Hide the CSS-inserted data-labels to avoid duplicate labels now that .labels-row is visible */
+    .inputs-row>[class*='col']::before {
+        display: none !important;
+        content: none !important;
+    }
+
+    /* Ensure the auto-switch that lives in the labels row is visible on mobile */
+    .labels-row .auto-switch {
+        display: flex !important;
+        align-items: center;
+        gap: 8px;
+    }
+
+    /* slightly reduce input height to fit mobile visual from mockup */
+    .form-control,
+    .custom-select-btn,
+    .input-group .form-control {
+        height: 44px;
+    }
+
+    /* action button should remain full width and sit after inputs */
+    .action-col .d-grid {
+        margin-top: 0;
+    }
+}

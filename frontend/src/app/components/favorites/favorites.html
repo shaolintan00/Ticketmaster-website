@@ -1,0 +1,20 @@
+<section class="favorites container mt-3">
+    <h2>Favorites</h2>
+
+    <div *ngIf="loading" class="text-center mt-4">Loading...</div>
+
+    <div *ngIf="!loading && events?.length === 0" class="mt-5 text-secondary text-center">No favorite events yet.
+        <br>
+        <div class="text-secondary text-center mt-2" style="font-size: 14px;">Add events to your favourites by clicking
+            the
+            heart icon on any
+            event.</div>
+    </div>
+
+    <div class="row mt-3">
+        <div class="col-12 col-md-6 col-lg-4 mb-3" *ngFor="let ev of events">
+            <!-- items here are saved favorites, mark the card as liked -->
+            <app-eventcard [event]="ev" [liked]="true" (like)="onCardLike($event)"></app-eventcard>
+        </div>
+    </div>
+</section>

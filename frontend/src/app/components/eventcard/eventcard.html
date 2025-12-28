@@ -1,0 +1,24 @@
+<div class="card event-card shadow-sm" (click)="openDetail()" role="button" tabindex="0">
+    <div class="position-relative">
+        <img [src]="displayEvent.image" class="card-img-top event-cover" alt="{{ displayEvent.name }}" />
+        @if (displayEvent.category != 'Undefined') {
+        <span *ngIf="displayEvent.category" class="badge bg-light text-dark category-badge overlay-pill">{{
+            displayEvent.category }}</span>
+        }
+        <!-- date moved up to the image overlay next to the category -->
+        <span *ngIf="displayEvent.datetime" class="date-pill overlay-pill">{{ displayEvent.datetime }}</span>
+    </div>
+
+    <div class="card-body">
+        <div class="d-flex w-100 align-items-start">
+            <div class="flex-grow-1">
+                <h5 class="card-title event-title">{{ displayEvent.name }}</h5>
+                <p class="card-text venue-text mb-0">{{ displayEvent.venue }}</p>
+            </div>
+
+            <!-- move like button next to the title on the right -->
+            <app-heart [liked]="liked" [event]="event" [btnClass]="'btn like-btn ms-2'" ariaLabel="Like"
+                (likedChange)="like.emit($event)"></app-heart>
+        </div>
+    </div>
+</div>

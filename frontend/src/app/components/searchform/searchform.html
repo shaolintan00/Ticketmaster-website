@@ -1,0 +1,131 @@
+<div class="container-fluid mt-4">
+    <form [formGroup]="form" (ngSubmit)="onSearch()"
+        class="search-form d-flex justify-content-around row gx-3 align-items-start">
+        <!-- Labels removed from a separate row; each label is placed above its field in the corresponding column so label+field stay together. -->
+
+        <div class="row w-100 gx-3 d-flex align-items-center inputs-row">
+            <!-- Keywords (searchable dropdown with suggestions + spinner + clear) -->
+            <div class="col-3 py-0">
+                <label class="form-label mb-1" [class.label-invalid]="getControlError('keyword')">Keywords <span
+                        class="req">*</span></label>
+                <div class="position-relative">
+                    <input #keywordInput type="text" class="form-control" formControlName="keyword"
+                        placeholder="Search for events..." autocomplete="off" (focus)="onKeywordFocus()"
+                        (blur)="onKeywordBlur()"
+                        [class.input-invalid]="keywordError || (form.get('keyword')?.invalid && form.get('keyword')?.touched)" />
+
+                    <!-- action area: clear button (left) + dropdown/spinner button (right) -->
+                    <div class="input-actions">
+                        <!-- clear button: visible only when focused and there is text, and not loading -->
+                        <button *ngIf="keywordFocused && form.get('keyword')?.value" class="clear-btn btn btn-sm"
+                            type="button" aria-label="Clear keyword" (click)="clearKeyword()">
+                            <span aria-hidden="true">&times;</span>
+                            <span class="visually-hidden">Clear</span>
+                        </button>
+
+                        <!-- dropdown / spinner action button -->
+                        <button type="button" class="action-btn btn btn-sm" (click)="onDropdownClick()"
+                            aria-label="Toggle suggestions">
+                            <!-- spinner replaces chevron while loading (only while focused and typing) -->
+                            <div *ngIf="loadingSuggestions && keywordFocused && form.get('keyword')?.value"
+                                class="spinner-border spinner-border-sm text-secondary" role="status"
+                                aria-hidden="true">
+                            </div>
+
+                            <!-- chevron (up when focused, down otherwise) -->
+                            <i *ngIf="!(loadingSuggestions && keywordFocused && form.get('keyword')?.value)" class="fa"
+                                [ngClass]="keywordFocused ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+                        </button>
+                    </div>
+
+                    <!-- suggestions dropdown -->
+                    <ul class="list-group position-absolute w-100" *ngIf="showSuggestions"
+                        style="z-index:1000; top:100%; margin-top: 6px;">
+                        <li class="list-group-item list-group-item-action" *ngFor="let s of suggestions"
+                            (click)="selectSuggestion(s)" role="option">
+                            {{ s.name }}
+                        </li>
+                        <li class="list-group-item text-center" *ngIf="!loadingSuggestions && suggestions.length === 0">
+                            No results
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- placeholder validation message for keyword: always present so space is reserved
+                 and we only show text when an error exists. This prevents layout shift. -->
+                <div class="field-error" style="font-size: 12px;">
+                    {{ getControlError('keyword') || '' }}
+                </div>
+            </div>
+
+            <!-- Category -->
+            <div class="col py-0">
+                <label class="form-label mb-1">Category <span class="req">*</span></label>
+                <div class="position-relative">
+                    <button type="button"
+                        class="btn dropdown-toggle d-flex justify-content-start align-items-center form-control custom-select-btn"
+                        (click)="toggleCategory()" aria-haspopup="true" [attr.aria-expanded]="catOpen">
+                        <span class="text-start">{{ form.get('category')?.value }}</span>
+                    </button>
+
+                    <ul class="dropdown-menu custom-select-menu" [class.show]="catOpen" *ngIf="catOpen">
+                        <li *ngFor="let c of categories">
+                            <button class="dropdown-item d-flex justify-content-between align-items-center"
+                                type="button" (click)="selectCategory(c)">
+                                <span>{{ c }}</span>
+                                <i *ngIf="form.get('category')?.value === c" class="fa fa-check text-secondary"></i>
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+                <div class="field-error" style="font-size: 12px;">{{ '' }}</div>
+            </div>
+
+            <!-- Location -->
+            <div class="col-3 py-0">
+                <div class="d-flex justify-content-between align-items-center">
+                    <label class="form-label mb-0" [class.label-invalid]="getControlError('location')">Location <span
+                            class="req">*</span></label>
+                    <div class="auto-switch">
+                        <label class="auto-label small mb-0"
+                            [class.label-invalid]="getControlError('location')">Auto-detect Location</label>
+                        <div class="form-check form-switch" style="transform: scale(0.7);">
+                            <input class="form-check-input" type="checkbox" role="switch" id="autoDetect"
+                                formControlName="autodetect" />
+                        </div>
+                    </div>
+                </div>
+
+                <input class="form-control mt-0" type="text" formControlName="location" placeholder="Enter location..."
+                    [class.input-invalid]="locationError || (form.get('location')?.invalid && form.get('location')?.touched)" />
+
+                <!-- placeholder validation message for location: always present so space is reserved -->
+                <div class="field-error" style="font-size: 12px;">{{ getControlError('location') || '' }}</div>
+            </div>
+
+            <!-- Distance -->
+            <div class="col-2 py-0">
+                <label class="form-label mb-1" [class.label-invalid]="getControlError('distance')">Distance <span
+                        class="req">*</span></label>
+                <div class="input-group">
+                    <input type="number" class="form-control" formControlName="distance" min="1"
+                        [class.input-invalid]="distanceError || (form.get('distance')?.invalid && form.get('distance')?.touched)" />
+                    <span class="input-group-text">miles</span>
+                </div>
+
+                <!-- placeholder validation message for distance: always present so space is reserved -->
+                <div class="field-error" style="font-size: 12px;">{{ getControlError('distance') || '' }}</div>
+            </div>
+
+            <!-- Action -->
+            <div class="col-2 action-col align-self-end" style="padding-bottom: 1px;" data-label="">
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-dark"><i class="fa fa-search me-3"></i> Search Events</button>
+                </div>
+                <div class="field-error" style="font-size: 12px;">{{ '' }}</div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<app-resultgrid [results]="results" [searched]="searched"></app-resultgrid>

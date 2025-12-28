@@ -1,0 +1,194 @@
+h1 {
+    font-size: 1.75em;
+    font-weight: 700;
+}
+
+.buttons .button {
+    margin: 0 8px
+}
+
+.custom-ghost-button {
+    background-color: transparent !important;
+    /* Removes background color */
+    border: none !important;
+    /* Removes border */
+    box-shadow: none !important;
+    /* Removes any potential shadow */
+    /* Sets text color (optional, adjust as needed) */
+    padding: 10px;
+    /* Adjust padding if necessary for text-only appearance */
+}
+
+.custom-ghost-button:hover {
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    /* Optional: Add underline on hover */
+}
+
+.custom-ghost-button:focus {
+    outline: none !important;
+    /* Removes focus outline */
+    box-shadow: none !important;
+}
+
+/* Make header sticky with frosted glass effect */
+/* Make header sticky with frosted glass effect */
+header {
+    position: sticky;
+    top: 0;
+    z-index: 1030;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    background-color: rgba(255, 255, 255, 0.6);
+    /* border moved to the following hr so it can span the full width */
+    border-bottom: none;
+    /* use CSS variable for height so we can pad the main content */
+    --header-vertical-padding: 12px;
+    /* vertical padding only; horizontal padding moved into inner container so
+       the frosted background can be full-bleed while content remains centered */
+    padding: var(--header-vertical-padding) 0;
+    /* make sure header matches the app header height and centers contents */
+    min-height: var(--app-header-height);
+    display: flex;
+    align-items: center;
+}
+
+/* style the following hr so it spans the full page width and visually continues
+   the header background/border. Keep margin 0 so it sits flush with header. */
+header+hr {
+    margin: 0;
+    height: 1px;
+    border: 0;
+    background: rgba(0, 0, 0, 0.06);
+    width: 100%;
+}
+
+/* Ensure the header title and buttons align vertically within the sticky header */
+/* inner container: distribute content and center items vertically */
+header>.d-flex {
+    /* Keep the frosted background full-bleed but center the inner content.
+       Use a single-row layout: title left, controls right. */
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    /* center the inner container */
+}
+
+/* remove default container gutters so title/buttons align flush to the left */
+/* inner container used specifically for header layout. It is centered and
+   contains the title and the controls spaced apart. We reset container
+   gutters here so the title lines up with other content if needed. */
+header .container.header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1200px;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+/* tighten button sizing for visual alignment */
+.buttons {
+    align-items: center;
+}
+
+/* keep buttons grouped on the right in a single row */
+.buttons.d-flex {
+    gap: 12px;
+}
+
+.buttons.d-flex .btn {
+    margin: 0;
+}
+
+.buttons .btn {
+    padding: 6px 12px;
+    font-size: 0.95rem;
+    line-height: 1;
+}
+
+/* ensure the title has no extra margins and aligns nicely */
+header h1 {
+    margin: 0;
+    font-size: 1.5rem;
+    line-height: 1;
+}
+
+/* hamburger: hidden on wide screens, visible on small (<=430px) */
+.hamburger {
+    display: none;
+    background: transparent;
+    border: none;
+    font-size: 1.25rem;
+    padding: 8px;
+    align-items: center;
+    justify-content: center;
+    color: inherit;
+}
+
+/* mobile menu overlay (simple and lightweight) */
+.mobile-menu {
+    display: none;
+}
+
+@media (max-width: 430px) {
+
+    /* hide the default buttons and show the hamburger */
+    .buttons {
+        display: none !important;
+    }
+
+    .hamburger {
+        display: inline-flex !important;
+        margin-right: 8px;
+    }
+
+    /* mobile menu visible when toggled (ngIf controls rendering) */
+    .mobile-menu {
+        display: block;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 100%;
+        background: rgba(255, 255, 255, 0.98);
+        border-radius: 0 0 8px 8px;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+        z-index: 2040;
+        padding: 8px 12px;
+        width: 100%;
+    }
+
+    .mobile-menu nav {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    .mobile-menu nav button {
+        display: block;
+        width: 100%;
+        text-align: left;
+        padding: 12px 14px;
+        border: none;
+        background: transparent;
+        font-size: 1rem;
+        border-radius: 6px;
+    }
+
+    /* Ensure the title isn't flush to the left edge on very small screens. */
+    header .container.header-inner h1 {
+        margin-left: 8px;
+    }
+}
+
+/* Make header a little translucent in dark mode too */
+.dark header {
+    background-color: rgba(20, 20, 20, 0.55);
+    border-bottom: none;
+}
+
+.dark header+hr {
+    background: rgba(255, 255, 255, 0.06);
+}

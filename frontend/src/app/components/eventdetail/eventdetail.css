@@ -1,0 +1,163 @@
+/* Ticket status pills */
+.status-pill {
+    display: inline-block;
+    padding: 6px 10px;
+    border-radius: 999px;
+    color: #fff;
+    font-size: 0.85rem;
+}
+
+/* normalized class names (used by statusClass()) */
+.onsale {
+    background: #28a745;
+}
+
+.offsale {
+    background: #dc3545;
+}
+
+.cancelled {
+    background: #000;
+}
+
+.postponed {
+    background: #fd7e14;
+}
+
+/* Label style for left column (muted, slightly smaller) */
+.detail-label {
+    color: #6c757d;
+    /* bootstrap text-muted */
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+/* Back link pointer */
+.back-link {
+    cursor: pointer;
+}
+
+.back-link:hover {
+    text-decoration: underline;
+}
+
+/* Seatmap image styling */
+.seatmap-img {
+    border: 1px solid #dee2e6;
+    /* subtle grey border */
+    padding: 4px;
+    max-height: 520px;
+    object-fit: contain;
+    background: #fff;
+    display: block;
+    margin-left: 0;
+    /* ensure left alignment */
+}
+
+.venue-cover-img {
+    width: 100%;
+    max-height: 520px;
+    object-fit: cover;
+}
+
+/* Small responsive tweaks */
+
+/* ensure seatmap label and image spacing */
+.seatmap-wrap .text-start {
+    margin-bottom: 6px;
+}
+
+/* Favorite button heart sizing */
+.fav-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.35rem 0.5rem;
+}
+
+.fav-heart {
+    font-size: 1.35rem;
+    line-height: 1;
+}
+
+/* Venue tab specific styling */
+.venue-name {
+    font-size: 1.05rem;
+}
+
+.venue-address {
+    margin-top: 0.25rem;
+}
+
+.address-link {
+    color: #6c757d;
+    /* grey */
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.address-link:hover {
+    text-decoration: underline;
+}
+
+.address-icon {
+    color: #6c757d;
+    font-size: 0.9rem;
+}
+
+.rules-column .detail-label {
+    margin-bottom: 6px;
+}
+
+.h5 {
+    font-weight: bold;
+}
+
+/* Mobile: ensure the page title shrinks and wraps so it doesn't collide with action buttons */
+@media (max-width: 576px) {
+    .event-detail-header {
+        display: flex;
+        gap: 30px;
+        align-items: flex-start;
+    }
+
+    .event-detail-header>h1 {
+        /* allow the title to take remaining space but be allowed to shrink
+           and wrap (min-width:0 prevents flex overflow) */
+        flex: 1 1 auto;
+        min-width: 0;
+        font-size: 1.6rem;
+        line-height: 1.15;
+        word-break: break-word;
+        overflow-wrap: break-word;
+        margin-bottom: 0.25rem;
+    }
+
+    .event-detail-header>.d-flex {
+        /* action column (buttons) should not shrink and remain on the right */
+        flex: 0 0 auto;
+    }
+
+    .text-end .btn {
+        margin-top: 10px;
+        width: 100%;
+    }
+}
+
+/* Spotify button: black background, white text, with a small redirect icon */
+.btn-spotify {
+    background: #000 !important;
+    color: #fff !important;
+    border: 1px solid #000 !important;
+}
+
+.btn-spotify i {
+    color: #fff;
+}
+
+.btn-spotify:hover,
+.btn-spotify:focus {
+    background: #111 !important;
+    color: #fff !important;
+    border-color: #111 !important;
+}

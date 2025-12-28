@@ -1,0 +1,4 @@
+<button type="button" [class]="btnClass" (click)="onClick($event)" [attr.aria-pressed]="visualLiked"
+    [attr.aria-label]="ariaLabel">
+    <i [ngClass]="visualLiked ? 'fa fa-heart text-danger' : 'fa fa-heart-o'" aria-hidden="true"></i>
+</button>

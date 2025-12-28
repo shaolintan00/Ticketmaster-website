@@ -1,0 +1,41 @@
+/* Result grid spacing and card sizing */
+.event-card {
+    height: 100%;
+}
+
+.event-card .event-cover {
+    object-fit: cover;
+    height: 160px;
+}
+
+.no-results {
+    color: #6c757d;
+}
+
+.no-results .fa {
+    opacity: 0.7;
+}
+
+.h6 {
+    font-weight: 400;
+}
+
+/* Force single-column layout on very narrow screens (e.g. iPhone 14 Pro Max width 430px) */
+@media (max-width: 430px) {
+
+    /* make each bootstrap column full-width */
+    .row.g-3>div[class*="col-"] {
+        flex: 0 0 100% !important;
+        max-width: 100% !important;
+    }
+
+    /* give cards a bit more vertical breathing room on narrow screens */
+    .event-card {
+        margin-bottom: 12px;
+    }
+
+    .container {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+}

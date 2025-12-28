@@ -1,0 +1,27 @@
+<!-- Search results grid rendered by Resultgrid component -->
+<div class="container mt-4" *ngIf="results && results.length > 0">
+    <div class="row g-3">
+        <!-- Use responsive columns so each row has up to 3 items: xs=12 (1), sm=6 (2), md=4 (3) -->
+        <div class="col-12 col-sm-6 col-md-4" *ngFor="let e of results">
+            <app-eventcard [event]="e" [liked]="favoriteIds.has(e.id)" (like)="onLike($event)"></app-eventcard>
+        </div>
+    </div>
+</div>
+
+<!-- Default placeholder when no search has been performed -->
+<div *ngIf="!searched && (!results || results.length === 0)">
+    <div class="no-search-placeholder text-center py-5" aria-live="polite">
+        <i class="fa fa-search fa-3x mb-3 text-muted text-secondary" aria-hidden="true"></i>
+        <div class="fs-6 fw-semibold text-secondary">Enter search criteria and click the Search button to find events.
+        </div>
+    </div>
+</div>
+
+<!-- Only show the placeholder after the user has performed a search (no results) -->
+<div *ngIf="searched && (!results || results.length === 0)">
+    <div class="no-results text-center py-5" aria-live="polite">
+        <i class="fa fa-search fa-2x mb-3 text-muted" aria-hidden="true"></i>
+        <div class="h5">Nothing found</div>
+        <div class="h6">Update the query to find events near you</div>
+    </div>
+</div>

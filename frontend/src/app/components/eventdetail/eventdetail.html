@@ -1,0 +1,226 @@
+<div class="container py-3">
+    <a class="small text-decoration-none back-link" (click)="back()">&larr; Back to Search</a>
+    <div class="d-flex justify-content-between align-items-start mt-2 event-detail-header fw-bold">
+        <h1 class="h4">{{ event?.name || 'Event' }}</h1>
+        <div class="d-flex gap-2 align-items-center">
+            <a *ngIf="event?.url" class="btn btn-dark" [href]="event.url" target="_blank" rel="noopener">Buy
+                Tickets <i class="fa fa-external-link" style="margin-left: 7px;"></i></a>
+            <app-heart [liked]="liked" [event]="event" [btnClass]="'btn btn-outline-secondary fav-btn'"
+                ariaLabel="Favorite" (likedChange)="liked = $event.liked"></app-heart>
+        </div>
+    </div>
+
+    <!-- Tabs (using zard tabs: z-tab-group / z-tab) -->
+    <div class="mt-3">
+        <z-tab-group>
+            <z-tab label="Info">
+                <div class="tab-pane rounded-bottom">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <!-- Date -->
+                            <div *ngIf="event?.dates?.start" class="mb-3">
+                                <div class="detail-label">Date</div>
+                                <div>{{ formatStartDate() }}</div>
+                            </div>
+
+                            <!-- Artist/Team (summary) -->
+                            <div *ngIf="event?._embedded?.attractions?.length" class="mb-3">
+                                <div class="detail-label">Artist/Team</div>
+                                <div>
+                                    <span *ngFor="let a of event._embedded.attractions; let i = index">{{ a.name }}<span
+                                            *ngIf="i < event._embedded.attractions.length - 1">, </span></span>
+                                </div>
+                            </div>
+
+                            <!-- Venue -->
+                            <div *ngIf="event?._embedded?.venues?.length" class="mb-3">
+                                <div class="detail-label">Venue</div>
+                                <div>{{ event._embedded.venues[0].name }}</div>
+                            </div>
+
+                            <!-- Genres -->
+                            <div *ngIf="event?.classifications?.length" class="mb-3">
+                                <div class="detail-label">Genres</div>
+                                <div>
+                                    <span *ngFor="let c of event.classifications; let i = index">{{ c.segment?.name ||
+                                        c.genre?.name || c.subGenre?.name }}<span
+                                            *ngIf="i < event.classifications.length - 1">, </span></span>
+                                </div>
+                            </div>
+
+                            <!-- Ticket Status pill -->
+                            <div *ngIf="event?.dates?.status?.code" class="mb-3">
+                                <div class="detail-label">Ticket Status</div>
+                                <div>
+                                    <span class="status-pill" [ngClass]="statusClass()">{{ statusLabel() }}</span>
+                                </div>
+                            </div>
+
+                            <!-- Share buttons (only show when at least one share URL exists) -->
+                            <div *ngIf="shareFacebookUrl || shareTwitterUrl" class="mb-3">
+                                <div class="detail-label">Share</div>
+                                <div class="d-flex gap-2 mt-2">
+                                    <a *ngIf="shareFacebookUrl" class="btn btn-outline-secondary btn-sm"
+                                        [href]="shareFacebookUrl" target="_blank" rel="noopener">
+                                        <i class="fa fa-facebook" aria-hidden="true"></i>
+                                    </a>
+                                    <a *ngIf="shareTwitterUrl" class="btn btn-outline-secondary btn-sm"
+                                        [href]="shareTwitterUrl" target="_blank" rel="noopener">
+                                        <i class="fa fa-twitter" aria-hidden="true"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Seatmap column -->
+                        <div class="col-md-6">
+                            <div *ngIf="event?.seatmap?.staticUrl || event?.seatmap?.url" class="seatmap-wrap">
+                                <div class="detail-label fw-bold mb-2 text-start">Seatmap</div>
+                                <div class="text-start">
+                                    <img *ngIf="event?.seatmap?.staticUrl" [src]="event.seatmap.staticUrl"
+                                        class="img-fluid rounded seatmap-img" alt="Seatmap" />
+                                    <img *ngIf="!event?.seatmap?.staticUrl && event?.seatmap?.url"
+                                        [src]="event.seatmap.url" class="img-fluid rounded seatmap-img" alt="Seatmap" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </z-tab>
+
+            <z-tab label="Artist/Team" [disabled]="!showArtistTab">
+                <div class="tab-pane rounded-bottom">
+                    <!-- Spotify artist card (first row) -->
+                    <div *ngIf="spotifyArtist" class="spotify-artist-card mt-3">
+                        <div class="d-flex gap-3 align-items-start">
+                            <div class="artist-image me-3">
+                                <img *ngIf="spotifyArtist.images?.length" [src]="spotifyArtist.images[0].url"
+                                    class="img-fluid rounded" alt="Artist image"
+                                    style="width:120px; height:120px; object-fit:cover;" />
+                                <div *ngIf="!spotifyArtist.images?.length"
+                                    class="placeholder-image bg-secondary rounded" style="width:120px; height:120px">
+                                </div>
+                            </div>
+                            <div class="artist-meta flex-grow-1">
+                                <h2 class="h5 mb-2">{{ spotifyArtist.name }}</h2>
+                                <div class="small text-muted mb-2">
+                                    <span style="font-weight: bold;" *ngIf="spotifyArtist.followers?.total">Followers:
+                                        <span style="font-weight: normal;">{{ spotifyArtist.followers.total | number
+                                            }}</span></span>
+                                    <span style="font-weight: bold;"
+                                        *ngIf="spotifyArtist.popularity">&nbsp;&nbsp;Popularity: <span
+                                            style="font-weight: normal;">{{ spotifyArtist.popularity }}%</span></span>
+                                </div>
+                                <div *ngIf="spotifyArtist.genres?.length" class="small text-muted mb-2">Genres: {{
+                                    spotifyArtist.genres.join(', ') }}</div>
+                                <div>
+                                    <a *ngIf="spotifyArtist.external_urls?.spotify"
+                                        [href]="spotifyArtist.external_urls.spotify" target="_blank" rel="noopener"
+                                        class="btn btn-spotify btn-sm">Open in Spotify <i
+                                            class="fa fa-external-link ms-2" aria-hidden="true"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Albums row (second row) -->
+                    <div *ngIf="(spotifyArtist?.albums?.items?.length || spotifyArtist?.albums?.length)"
+                        class="albums-row mt-4">
+                        <h5 class="mb-3">Albums</h5>
+                        <div class="row gx-3 gy-3">
+                            <ng-container *ngFor="let album of (spotifyArtist?.albums?.items || spotifyArtist?.albums)">
+                                <div class="col-6 col-md-3">
+                                    <!-- If we have a Spotify URL for the album, make the whole card a link -->
+                                    <a *ngIf="spotifyAlbumUrl(album); else albumCard" [href]="spotifyAlbumUrl(album)"
+                                        target="_blank" rel="noopener" class="text-decoration-none">
+                                        <div class="card h-100">
+                                            <img *ngIf="album.images?.length" [src]="album.images[0].url"
+                                                class="card-img-top" alt="Album cover"
+                                                style="height:160px; object-fit:cover;" />
+                                            <div class="card-body p-2">
+                                                <div class="card-title small fw-semibold" title="{{ album.name }}">{{
+                                                    album.name }}</div>
+                                                <div class="small text-muted">{{ album.release_date }} · {{
+                                                    album.total_tracks }} tracks</div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <ng-template #albumCard>
+                                        <div class="card h-100">
+                                            <img *ngIf="album.images?.length" [src]="album.images[0].url"
+                                                class="card-img-top" alt="Album cover"
+                                                style="height:160px; object-fit:cover;" />
+                                            <div class="card-body p-2">
+                                                <div class="card-title small fw-semibold" title="{{ album.name }}">{{
+                                                    album.name }}</div>
+                                                <div class="small text-muted">{{ album.release_date }} · {{
+                                                    album.total_tracks }} tracks</div>
+                                            </div>
+                                        </div>
+                                    </ng-template>
+                                </div>
+                            </ng-container>
+                        </div>
+                    </div>
+
+                    <div *ngIf="spotifyArtist && !(spotifyArtist?.albums?.items?.length || spotifyArtist?.albums?.length)"
+                        class="mt-3">
+                        <p class="small text-muted">No albums found for this artist.</p>
+                    </div>
+                </div>
+            </z-tab>
+
+            <z-tab label="Venue">
+                <div class="tab-pane rounded-bottom">
+                    <div *ngIf="getVenue() as venue">
+                        <!-- First row: name + address on left, See Events button on right -->
+                        <div class="row align-items-center mb-3 venue-row">
+                            <div class="col-md-8">
+                                <div *ngIf="venueName()"><strong class="venue-name">{{ venueName() }}</strong></div>
+                                <div *ngIf="venueAddress()" class="venue-address small text-muted">
+                                    <a [href]="venueMapUrl()" target="_blank" rel="noopener" class="address-link">{{
+                                        venueAddress() }}</a>
+                                    <a [href]="venueMapUrl()" target="_blank" rel="noopener"
+                                        class="address-icon ms-2"><i class="fa fa-external-link"
+                                            aria-hidden="true"></i></a>
+                                </div>
+                            </div>
+                            <div class="col-md-4 text-end">
+                                <a *ngIf="venueSeeEventsUrl()" [href]="venueSeeEventsUrl()" target="_blank"
+                                    rel="noopener" class="btn btn-outline-dark btn-sm">See
+                                    Events <i class="fa fa-external-link" aria-hidden="true"></i></a>
+                            </div>
+                        </div>
+
+                        <!-- Second row: cover image + rules -->
+                        <div class="row">
+                            <div class="col-md-5" *ngIf="venueCoverImage()">
+                                <img [src]="venueCoverImage()" alt="Venue cover"
+                                    class="img-fluid rounded mb-2 venue-cover-img" />
+                            </div>
+                            <div class="col-md-7 rules-column">
+                                <div *ngIf="venueParking()" class="mb-3">
+                                    <div class="detail-label">Parking</div>
+                                    <div [innerText]="venueParking()"></div>
+                                </div>
+
+                                <div *ngIf="venueGeneralRule()" class="mb-3">
+                                    <div class="detail-label">General Rule</div>
+                                    <div [innerText]="venueGeneralRule()"></div>
+                                </div>
+
+                                <div *ngIf="venueChildRule()" class="mb-3">
+                                    <div class="detail-label">Child Rule</div>
+                                    <div [innerText]="venueChildRule()"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="!getVenue()">
+                        <p>No venue information available.</p>
+                    </div>
+                </div>
+            </z-tab>
+        </z-tab-group>
+    </div>
+</div>

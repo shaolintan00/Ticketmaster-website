@@ -1,0 +1,27 @@
+<header>
+    <div class="container header-inner">
+        <h1>Events Around</h1>
+        <!-- mobile hamburger shown at narrow widths -->
+        <!-- mobile hamburger shown at narrow widths; icon toggles to X when open -->
+        <button type="button" class="hamburger" (click)="toggleMenu()" aria-label="Toggle menu"
+            [attr.aria-expanded]="menuOpen">
+            <i class="fa" [ngClass]="menuOpen ? 'fa-times' : 'fa-bars'" aria-hidden="true"></i>
+        </button>
+        <div class="buttons">
+            <button type="button" class="custom-ghost-button" (click)="goToSearch()"><i
+                    class="fa fa-search me-2"></i>Search</button>
+            <button type="button" class="custom-ghost-button" (click)="goToFavorites()"><i class="fa fa-heart-o me-2"
+                    aria-hidden="true"></i>Favourites</button>
+        </div>
+    </div>
+    <!-- small overlay mobile menu -->
+    <div class="mobile-menu" *ngIf="menuOpen">
+        <nav>
+            <button type="button" class="custom-ghost-button" (click)="goToSearch(); toggleMenu()"><i
+                    class="fa fa-search me-2"></i>Search</button>
+            <button type="button" class="custom-ghost-button" (click)="goToFavorites(); toggleMenu()"><i
+                    class="fa fa-heart-o me-2"></i>Favourites</button>
+        </nav>
+    </div>
+</header>
+<hr>
